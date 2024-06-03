@@ -1,6 +1,10 @@
 <template>
-  <div class="flex">
-    <nav class="flex-grow flex flex-col gap-2 items-center bg-white h-screen p-4 w-[300px]">
+  <div class="grid grid-cols-12 gap-4 relative lg:static">
+    <nav
+      class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-screen p-4 lg:static absolute -left-full transition-all duration-200"
+      :class="sidebarClass">
+      <i class="bi bi-x-lg absolute top-0 left-2 translate-y-1/2 text-3xl text-secondary cursor-pointer lg:hidden"
+        @click="toggleSidebar"></i>
       <RouterLink to="/">
         <img src="/sic-logo.png" class="w-40 my-4" alt="Logo SIC">
       </RouterLink>
@@ -17,13 +21,18 @@
         </RouterLink>
       </div>
     </nav>
-    <div class="container m-4 font-inter">
-      <header class="w-full flex items-center justify-end bg-white rounded-lg p-4">
-        <div class="mr-4">
-          <h2 class="font-bold text-xl text-secondary">I Wayan John Doe</h2>
-          <p class="text-end text-secondary text-sm">Sekretaris</p>
+    <div class="container font-inter col-span-12 lg:col-span-10 lg:pr-4">
+      <header class="w-full mt-4 flex justify-between lg:justify-end bg-white rounded-lg p-4">
+        <div class="lg:hidden">
+          <i class="bi bi-list text-3xl text-secondary cursor-pointer" @click="toggleSidebar"></i>
         </div>
-        <img src="/default.png" alt="default profile picture" class="w-12">
+        <div class="flex items-center">
+          <div class="mr-4">
+            <h2 class="font-bold text-xl text-secondary">I Wayan John Doe</h2>
+            <p class="text-end text-secondary text-sm">Sekretaris</p>
+          </div>
+          <img src="/default.png" alt="default profile picture" class="w-12">
+        </div>
       </header>
       <main class="md:col-span-9">
         <div class="container bg-white rounded-lg p-4 mt-4">
@@ -35,5 +44,16 @@
 </template>
 
 <script setup>
+import { ref, computed } from 'vue';
 import NavItem from '@/components/NavItem.vue'
+
+const isSidebarShowed = ref(false);
+
+const sidebarClass = computed(() => {
+  return isSidebarShowed.value ? 'translate-x-[100%]' : '';
+});
+
+function toggleSidebar() {
+  isSidebarShowed.value = !isSidebarShowed.value;
+}
 </script>
