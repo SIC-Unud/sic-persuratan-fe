@@ -1,5 +1,6 @@
+// filepath: c:\Users\Surya\OneDrive\ドキュメント\tsssurr\user-detail-surat\src\router\index.js
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import DetailSurat from '@/views/DetailSurat.vue'
 import AboutView from '@/views/AboutView.vue'
 import ManajemenSuratView from '@/views/ManajemenSuratView.vue'
 
@@ -8,13 +9,18 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'manajemen-surat',
-      component: ManajemenSuratView
+      name: 'detail-surat',
+      component: DetailSurat
     },
     {
       path: '/about',
       name: 'about',
       component: AboutView
+    },
+    {
+      path: '/manajemen-surat',
+      name: 'manajemen-surat',
+      component: ManajemenSuratView
     },
   ]
 })
