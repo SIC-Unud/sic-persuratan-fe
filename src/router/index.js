@@ -18,8 +18,8 @@ const router = createRouter({
       component: AboutView
     },
     {
-      path: '/popup-hapus',
-      name: 'popup-hapus',
+      path: '/hapus',
+      name: 'hapus-surat',
       component: PopUpHapus
     }
   ]
