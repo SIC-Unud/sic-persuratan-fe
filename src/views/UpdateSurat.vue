@@ -1,26 +1,27 @@
 <template>
   <DashboardLayout>
     <div>
-      <div class="flex justify-between items-center">
-        <div>
-          <h2 class="font-inter-sans text-xl font-bold text-content text-[28px]">
-          Detail Surat
-        </h2>
-        </div>
-
-        <div class="flex justify-between">
-          <div class="hidden md:flex justify-end gap-2 bg-white">
-            <RouterLink to="#" class="px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
-              Batal
-            </RouterLink>
-            <RouterLink to="#" class="px-6 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
-              Simpan
-            </RouterLink>
-          </div>
-        </div>
-      </div>
+      
 
       <form class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto">
+        <div class="col-span-full flex justify-between items-center">
+          <div>
+            <h2 class="font-inter-sans text-xl font-bold text-content text-[28px]">
+            Detail Surat
+          </h2>
+          </div>
+
+          <div class="flex justify-between">
+            <div class="hidden md:flex justify-end gap-2 bg-white">
+              <RouterLink to="#" class="px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
+                Batal
+              </RouterLink>
+              <button to="#" class="px-6 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
         <div>
           <label class="block text-base font-normal text-content">Nama Pengaju</label>
           <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
@@ -98,15 +99,16 @@
           <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
           placeholder="Link">
         </div>
+        <div class="grid-end-auto flex md:hidden justify-end gap-3 bg-white py-6">
+          <button class="text-center px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
+            Kembali
+          </button>
+          <button class="text-center px-4 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
+            Simpan
+          </button>
+        </div>
       </form>
-      <div class="flex md:hidden justify-end gap-3 bg-white py-6">
-        <RouterLink to="#" class="text-center px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
-          Kembali
-        </RouterLink>
-        <RouterLink to="#" class="text-center px-4 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
-          Simpan
-        </RouterLink>
-      </div>
+      
     </div>
   </DashboardLayout>
 </template>
@@ -114,5 +116,6 @@
 <script setup>
 import DashboardLayout from '@/layout/DashboardLayout.vue';
 import NavItem from '@/components/NavItem.vue'
+import { RouterLink } from 'vue-router';
 
 </script>

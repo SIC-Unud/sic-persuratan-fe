@@ -1,11 +1,13 @@
 <template>
   <DashboardLayout>
-    <h1>Hello</h1>
+    <div>
+      hello
+    </div>
   </DashboardLayout>
-
 </template>
 
 <script setup>
 import DashboardLayout from '@/layout/DashboardLayout.vue';
+import NavItem from '@/components/NavItem.vue'
 
 </script>

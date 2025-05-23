@@ -22,7 +22,7 @@
       </div>
     </nav>
     <div class="container font-inter col-span-12 lg:col-span-10 lg:pr-4">
-      <header class="w-full mt-4 flex justify-between lg:justify-end bg-white rounded-lg p-4">
+      <header class="w-full md:mt-4 flex justify-between lg:justify-end bg-white md:rounded-lg p-4">
         <div class="lg:hidden">
           <i class="bi bi-list text-3xl text-secondary cursor-pointer" @click="toggleSidebar"></i>
         </div>
@@ -35,7 +35,7 @@
         </div>
       </header>
       <main class="md:col-span-9">
-        <div class="container bg-white rounded-lg p-4 mt-4">
+        <div class="container bg-white md:rounded-lg p-4 md:mt-4">
           <slot></slot>
         </div>
       </main>
