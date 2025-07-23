@@ -1,10 +1,11 @@
 <template>
   <DashboardLayout>
-    <EditData></EditData>
+    <DetailAkses></DetailAkses>
   </DashboardLayout>
 </template>
 
 <script setup>
+
 import DashboardLayout from '@/layout/DashboardLayout.vue';
 import ManagementAkses from '@/layout/ManagementAkses.vue';
 import DetailAkses from '@/layout/DetailAkses.vue';

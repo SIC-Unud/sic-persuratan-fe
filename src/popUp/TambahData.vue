@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col w-[618px] h-[791px] mx-auto p-6 bg-white rounded-2xl shadow-md border">
-    <h2 class="text-2xl font-semibold text-secondary mb-14 font-jakarta-sans">Tambah Data</h2>
+  <div class="flex flex-col md:w-[618px] md:h-[791px] md:mx-auto w-full h-screen md:p-6 pt-14 bg-white md:rounded-2xl md:shadow-md md:border">
+    <h2 class="text-2xl font-semibold text-secondary md:mb-14 mb-9 font-jakarta-sans">Tambah Data</h2>
 
     <form class="space-y-6">
       <!-- Nama Kegiatan -->
@@ -10,7 +10,7 @@
       </div>
 
       <!-- Tanggal Mulai -->
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid md:grid-cols-2 gap-4">
         <div>
           <label class="block text-dark mb-2 font-jakarta-sans" >Tanggal Mulai</label>
           <div class="relative">
@@ -130,7 +130,7 @@
 
     <div class="flex justify-end mt-auto gap-2 ">
       <!-- tombol batal -->
-      <button class="font-jakarta-sans border-2 border-primary rounded-xl py-2 px-6 text-primary font-bold ">Batal</button>
+      <button class="font-jakarta-sans border-2 border-primary rounded-xl py-2 px-6 text-primary font-bold @click=$emit('close')">Batal</button>
        
        <!-- tombol kirim -->
       <button class="text-white  bg-primary border-2 border-birumuda rounded-xl py-2 px-6 font-jakarta-sans font-bold">Simpan</button>
@@ -139,3 +139,6 @@
   </div>
 </template>
 
+<script setup>
+
+</script>
