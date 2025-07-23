@@ -10,10 +10,14 @@ export default {
         primary: '#63A8E7',
         secondary: '#1A365D',
         dark: '#2D3748',
+<<<<<<< HEAD
         danger: '#D72638',
         kuning: '#FFCA05',
         birumuda: '#63A8E799',
         primarymuda : '#EAF4FF',
+=======
+        danger: '#D72638'
+>>>>>>> 85efa1b34ba7c539d766b2009905203acbee5195
       },
       fontFamily: {
         'jakarta-sans': ['Plus Jakarta Sans', 'sans-serif'],

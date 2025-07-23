@@ -1,6 +1,9 @@
 <template>
   <div class="grid grid-cols-12 gap-4 relative lg:static">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 85efa1b34ba7c539d766b2009905203acbee5195
     <nav
       class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-screen p-4 lg:static absolute -left-full transition-all duration-200"
       :class="sidebarClass">
@@ -45,7 +48,6 @@
       </main>
 
     </div>
-
   </div>
 </template>
 
