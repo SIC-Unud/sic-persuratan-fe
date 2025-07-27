@@ -10,55 +10,58 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: () => {
-        const roleId = parseInt(localStorage.getItem('role_id') || '0')
-        if (roleId === 1) return '/admin/surat'
-        return '/surat'
-      }
+      redirect: 'admin/surat'
+      // redirect: () => {
+      //   const roleId = parseInt(localStorage.getItem('role_id') || '0')
+      //   if (roleId === 1) return '/admin/surat'
+      //   return '/surat'
+      // }
     },
-    {
-      path: '/surat',
-      name: 'manajemen-surat',
-      component: ManajemenSuratView
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: AboutView
-    },
+    // {
+    //   path: '/about',
+    //   name: 'about',
+    //   component: AboutView
+    // },
+    // {
+    //   path: '/surat',
+    //   name: 'manajemen-surat-user',
+    //   component: ManajemenSuratView
+    // },
     {
       path: '/admin/surat',
+      name: 'admin-surat',
       component: ManajemenSuratView,
-      meta: { requiresAdmin: true },
-      children: [
-        {
-              path: ':id',
-              component: DetailSuratView,
-              children: [
-                {
-                  path: 'update-surat',
-                  name: 'admin-update-surat',
-                  component: UpdateSuratView
-                }
-              ]
-            }
-          ]
-        },
-      ]
+      // meta: { requiresAdmin: true }
     },
-  )
-
-router.beforeEach((to, from, next) => {
-  const roleId = parseInt(localStorage.getItem('role_id') || '0')
-
-  if (to.path === '/login' && roleId) {
-    if (roleId === 1) return next('/admin/surat')
-    return next('/surat')
-  }
-
-  if (to.meta.requiresAdmin && roleId !== 1) return next('/login')
-
-  next()
+    {
+      path: '/admin/surat/:id',
+      name: 'admin-detail-surat',
+      component: DetailSuratView,
+      // meta: { requiresAdmin: true }
+    },
+    {
+      path: '/admin/surat/:id/update-surat',
+      name: 'admin-update-surat',
+      component: UpdateSuratView,
+      // meta: { requiresAdmin: true }
+    }
+  ]
 })
+
+// // Middleware untuk proteksi rute
+// router.beforeEach((to, from, next) => {
+//   const roleId = parseInt(localStorage.getItem('role_id') || '0')
+
+//   // Jika user sudah login dan mencoba ke /login lagi, arahkan sesuai role
+//   if (to.path === '/login' && roleId) {
+//     if (roleId === 1) return next('/admin/surat')
+//     return next('/surat')
+//   }
+
+//   // Proteksi akses admin
+//   if (to.meta.requiresAdmin && roleId !== 1) return next('/login')
+
+//   next()
+// })
 
 export default router

@@ -1,0 +1,52 @@
+// src/data/suratList.js
+
+export const suratList = [
+  {
+    id: 1,
+    namaPengaju: "Deyas",
+    temaKegiatan: "Lomba",
+    sumberSurat: "Surat Panitia Pelaksana",
+    tanggal: "1 Oktober 2023",
+    pukul: "08.00 - Selesai",
+    jenisSurat: "Surat Permohonan Izin Kegiatan",
+    tempat: "Gedung BG 1.1",
+    nomorSurat: "Nomor surat belum ditentukan",
+    status: "Menunggu Diajukan",
+    tujuan: "Permohonan izin",
+    keterangan: "Tidak ada keterangan",
+    namaKegiatan: "SICKHATON",
+    linkPendukung: "Tidak ada link pendukung"
+  },
+  {
+    id: 2,
+    namaPengaju: "Reyhan",
+    temaKegiatan: "Workshop",
+    sumberSurat: "Surat UKM",
+    tanggal: "15 Oktober 2023",
+    pukul: "13.00 - 16.00",
+    jenisSurat: "Surat Permohonan Tempat",
+    tempat: "Auditorium Lt. 3",
+    nomorSurat: "Nomor surat belum ditentukan",
+    status: "Menunggu Diajukan",
+    tujuan: "Peminjaman Tempat",
+    keterangan: "Akan mengundang pembicara dari luar",
+    namaKegiatan: "TechTalk 2023",
+    linkPendukung: "https://techtalk.id"
+  },
+  {
+    id: 3,
+    namaPengaju: "Rani",
+    temaKegiatan: "Bakti Sosial",
+    sumberSurat: "Surat Organisasi",
+    tanggal: "22 Oktober 2023",
+    pukul: "08.00 - 12.00",
+    jenisSurat: "Surat Permohonan Bantuan",
+    tempat: "Panti Asuhan Harapan",
+    nomorSurat: "Nomor surat belum ditentukan",
+    status: "Menunggu Diajukan",
+    tujuan: "Permohonan Dana",
+    keterangan: "Akan membawa donasi dari kampus",
+    namaKegiatan: "Berbagi Kasih",
+    linkPendukung: "Tidak ada link pendukung"
+  }
+];

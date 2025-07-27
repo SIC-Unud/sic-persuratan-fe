@@ -1,121 +1,164 @@
 <template>
   <DashboardLayout>
     <div>
-      
-
       <form class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto">
         <div class="col-span-full flex justify-between items-center">
           <div>
             <h2 class="font-inter-sans text-xl font-bold text-content text-[28px]">
-            Detail Surat
-          </h2>
+              Update Surat
+            </h2>
           </div>
 
-          <div class="flex justify-between">
-            <div class="hidden md:flex justify-end gap-2 bg-white">
-              <RouterLink to="/admin/surat/${$route.params.id}" class="px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
-                Batal
-              </RouterLink>
-              <button to="#" class="px-6 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
-                Simpan
-              </button>
-            </div>
+          <div class="hidden md:flex justify-end gap-2 bg-white">
+            <RouterLink :to="`/admin/surat/${route.params.id}`" class="px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
+              Batal
+            </RouterLink>
+            <button @click.prevent="simpanSurat" class="px-6 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
+              Simpan
+            </button>
           </div>
         </div>
+
+        <!-- FORM INPUT -->
         <div>
           <label class="block text-base font-normal text-content">Nama Pengaju</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Nama pengaju">
+          <input v-model="form.namaPengaju" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Nama pengaju" />
         </div>
+
         <div>
           <label class="block text-base font-normal text-content">Tema Kegiatan</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Tema kegiatan">
+          <input v-model="form.temaKegiatan" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Tema kegiatan" />
         </div>
 
         <div>
           <label class="block text-base font-normal text-content">Sumber Surat</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Sumber surat">
+          <input v-model="form.sumberSurat" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Sumber surat" />
         </div>
+
         <div class="flex gap-6">
-          <div class="flex flex-col w-full">
+          <div class="w-full">
             <label class="text-base font-normal text-content mb-1">Tanggal</label>
-            <input type="date" class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Tanggal">
+            <input v-model="form.tanggal" type="date" class="w-full p-2 border border-gray-300 rounded-lg" />
           </div>
-          <div class="flex flex-col w-full">
+          <div class="w-full">
             <label class="text-base font-normal text-content mb-1">Pukul</label>
-            <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Pukul">
+            <input v-model="form.pukul" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Pukul" />
           </div>
         </div>
 
         <div>
           <label class="block text-base font-normal text-content">Jenis Surat</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Jenis surat">
+          <input v-model="form.jenisSurat" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Jenis surat" />
         </div>
+
         <div>
           <label class="block text-base font-normal text-content">Tempat Kegiatan</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Nama gedung, ruangan">
+          <input v-model="form.tempat" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Tempat kegiatan" />
         </div>
 
         <div>
           <label class="block text-base font-normal text-content">Nomor Surat</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Nomor surat">
+          <input v-model="form.nomorSurat" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Nomor surat" />
         </div>
+
         <div>
           <label class="block text-base font-normal text-content">Status Surat</label>
-          <select class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2">
-              <option value="Menunggu Diajukan">Menunggu Diajukan</option>
-              <option value="Sedang Diajukan">Sedang Diajukan</option>
-              <option value="Berhasil Diajukan">Berhasil Diajukan</option>
-              <option value="Ditolak">Ditolak</option>
-              <option value="Dibatalkan">Dibatalkan</option>
-            </select>
+          <select v-model="form.status" class="w-full p-2 border border-gray-300 rounded-lg">
+            <option value="Menunggu Diajukan">Menunggu Diajukan</option>
+            <option value="Sedang Diajukan">Sedang Diajukan</option>
+            <option value="Berhasil Diajukan">Berhasil Diajukan</option>
+            <option value="Ditolak">Ditolak</option>
+            <option value="Dibatalkan">Dibatalkan</option>
+          </select>
         </div>
 
         <div>
           <label class="block text-base font-normal text-content">Tujuan Surat</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Tujuan">
+          <input v-model="form.tujuan" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Tujuan surat" />
         </div>
+
         <div>
           <label class="block text-base font-normal text-content">Keterangan</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Keterangan">
+          <input v-model="form.keterangan" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Keterangan" />
         </div>
 
         <div>
           <label class="block text-base font-normal text-content">Nama Kegiatan</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Nama kegiatan">
+          <input v-model="form.namaKegiatan" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Nama kegiatan" />
         </div>
+
         <div>
-          <label class="block text-base font-normal text-content">Link pendukung</label>
-          <input class="w-full p-2 border border-solid border-gray-300 border-1px rounded-lg gap-2"
-          placeholder="Link">
+          <label class="block text-base font-normal text-content">Link Pendukung</label>
+          <input v-model="form.linkPendukung" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Link" />
         </div>
-        <div class="grid-end-auto flex md:hidden justify-end gap-3 bg-white py-6">
-          <button class="text-center px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
-            Kembali
-          </button>
-          <button class="text-center px-4 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
+
+        <!-- Tombol Mobile -->
+        <div class="col-span-full flex md:hidden justify-end gap-3 bg-white py-6">
+          <RouterLink :to="`/admin/surat/${route.params.id}`" class="px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
+            Batal
+          </RouterLink>
+          <button @click.prevent="simpanSurat" class="px-4 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
             Simpan
           </button>
         </div>
       </form>
-      
     </div>
   </DashboardLayout>
 </template>
 
 <script setup>
-import DashboardLayout from '@/layout/DashboardLayout.vue';
-import NavItem from '@/components/NavItem.vue'
-import { RouterLink } from 'vue-router';
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import DashboardLayout from '@/layout/DashboardLayout.vue'
+import { suratList } from '@/data/suratList.js'
 
+const route = useRoute()
+
+// Form kosong default
+const form = ref({
+  namaPengaju: '',
+  temaKegiatan: '',
+  sumberSurat: '',
+  tanggal: '',
+  pukul: '',
+  jenisSurat: '',
+  tempat: '',
+  nomorSurat: '',
+  status: '',
+  tujuan: '',
+  keterangan: '',
+  namaKegiatan: '',
+  linkPendukung: '',
+})
+
+// Isi form setelah component dimount
+onMounted(() => {
+  const id = parseInt(route.params.id)
+  const surat = suratList.find(s => s.id === id)
+
+  if (surat) {
+    form.value = {
+      namaPengaju: surat.namaPengaju || '',
+      temaKegiatan: surat.temaKegiatan || '',
+      sumberSurat: surat.sumberSurat || '',
+      tanggal: surat.tanggal || '',
+      pukul: surat.pukul || '',
+      jenisSurat: surat.jenisSurat || '',
+      tempat: surat.tempat || '',
+      nomorSurat: surat.nomorSurat || '',
+      status: surat.status || '',
+      tujuan: surat.tujuan || '',
+      keterangan: surat.keterangan || '',
+      namaKegiatan: surat.namaKegiatan || '',
+      linkPendukung: surat.linkPendukung || '',
+    }
+  } else {
+    console.warn('Surat tidak ditemukan dengan ID:', id)
+  }
+})
+
+function simpanSurat() {
+  console.log('Form disimpan:', form.value)
+  // TODO: Kirim ke API atau update state
+}
 </script>
