@@ -1,9 +1,5 @@
 <template>
   <div class="grid grid-cols-12 gap-4 relative lg:static">
-<<<<<<< HEAD
-
-=======
->>>>>>> 85efa1b34ba7c539d766b2009905203acbee5195
     <nav
       class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-screen p-4 lg:static absolute -left-full transition-all duration-200"
       :class="sidebarClass">
@@ -17,7 +13,7 @@
         </RouterLink>
       </div>
       <NavItem icon="bi-file-earmark-fill" text="Manajemen Surat" />
-      <NavItem icon="bi-person-gear" text="Manajemen Akses" />
+      <NavItem to="/admin/manajemen-akses" icon="bi-person-gear" text="Manajemen Akses":isActive="route.path === '/admin/majemen-akses'"/>
       <div class="p-4 rounded-md w-full hover:bg-danger group transition-all duration-200">
         <RouterLink to="#" class="text-danger font-jakarta-sans group-hover:text-white">
           <i class="bi bi-box-arrow-right mr-4"></i>
@@ -49,11 +45,16 @@
 
     </div>
   </div>
+
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import NavItem from '@/components/NavItem.vue'
+import router from '@/router';
+
+const route = useRoute();
 
 const isSidebarShowed = ref(false);
 

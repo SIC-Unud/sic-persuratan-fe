@@ -1,6 +1,6 @@
 <template>
   <DashboardLayout>
-    <ManagementAkses> </ManagementAkses>
+    <DetailAkses></DetailAkses>
   </DashboardLayout>
 </template>
 
