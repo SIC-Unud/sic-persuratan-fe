@@ -22,7 +22,9 @@
         </tr>
 
         <div class="flex justify-end mt-9">
-            <button class="py-2 px-6 bg-primary rounded-xl gap-2 text-white lg:hidden">Edit</button>
+            <RouterLink to="/admin/detail-akses/edit-data-akses">
+                <button class="py-2 px-6 bg-primary rounded-xl gap-2 text-white lg:hidden">Edit</button>
+            </RouterLink>
         </div>
      </div>
 

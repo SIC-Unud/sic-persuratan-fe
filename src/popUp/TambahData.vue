@@ -1,7 +1,7 @@
 <template>
   <teleport to='body'>
     <div class="backdrop-blur-sm fixed inset-0 z-[98] bg-black/50">
-      <div class="flex fixed inset-5 flex-col align-center justify-center md:w-[618px] md:h-[650px] md:mx-auto w-full h-full md:p-6 pt-14 bg-white md:rounded-2xl md:shadow-md md:border">
+      <div class="flex fixed md:inset-5 flex-col align-center justify-center md:w-[618px] md:h-[650px] md:mx-auto w-full h-full px-4 md:p-6 pt-14 bg-white md:rounded-2xl md:shadow-md md:border">
         <h2 class="text-2xl font-semibold text-secondary md:mb-14 mb-9 font-jakarta-sans">Tambah Data</h2>
 
         <form class="space-y-6">
@@ -61,7 +61,7 @@
 
         </div>
 
-        <div class="flex justify-end mt-auto gap-2 ">
+        <div class="flex justify-end mt-auto gap-2 md:mb-0 mb-14">
           <!-- tombol batal -->
           <button class="font-jakarta-sans border-2 border-primary rounded-xl py-2 px-6 text-primary font-bold" @click="closePopup">Batal</button>
           

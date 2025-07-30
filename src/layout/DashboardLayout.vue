@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-12 gap-4 relative lg:static">
+  <div class="grid grid-cols-12 gap-4 relative lg:static md:h-full h-screen md:bg-primarymuda bg-white">
     <nav
       class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-screen p-4 lg:static absolute -left-full transition-all duration-200"
       :class="sidebarClass">
