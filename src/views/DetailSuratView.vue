@@ -31,14 +31,14 @@
         <div class="w-full">
           <label class="block text-base font-normal text-content">Tema Kegiatan</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-black">Lomb{{ surat.namaPengaju }}a</p>
+            <p class="font-medium text-black">{{ surat.temaKegiatan }}</p>
           </div>
         </div>
 
         <div class="w-full">
           <label class="block text-base font-normal text-content">Sumber Surat</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-black">{{ surat.namaPengaju }}</p>
+            <p class="font-medium text-black">{{ surat.sumberSurat }}</p>
           </div>
         </div>
         <div class="flex gap-6">
@@ -72,13 +72,13 @@
         <div class="w-full">
           <label class="block text-base font-normal text-content">Nomor Surat</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-gray-200">{{ surat.nomorSurat }}n</p>
+            <p class="font-medium text-black">{{ surat.nomorSurat }}n</p>
           </div>
         </div>
         <div class="w-full">
           <label class="block text-base font-normal text-content">Status Surat</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-black">{{ surat.nomorSurat }}</p>
+            <p class="font-medium text-black">{{ surat.status }}</p>
           </div>
         </div>
 
@@ -91,7 +91,7 @@
         <div class="w-full">
           <label class="block text-base font-normal text-content">Keterangan</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-gray-200">{{ surat.keterangan}}</p>
+            <p class="font-medium text-black">{{ surat.keterangan}}</p>
           </div>
         </div>
 
@@ -104,7 +104,7 @@
         <div class="w-full">
           <label class="block text-base font-normal text-content">Link pendukung</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-gray-200">{{ surat.linkPendukung }}</p>
+            <p class="font-medium text-black">{{ surat.linkPendukung }}</p>
           </div>
         </div>
       </div> 

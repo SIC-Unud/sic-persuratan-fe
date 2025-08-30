@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-12 gap-4 relative lg:static">
     <nav
-      class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-screen p-4 lg:static absolute -left-full transition-all duration-200"
+      class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-full p-4 lg:static absolute -left-full transition-all duration-200"
       :class="sidebarClass">
       <i class="bi bi-x-lg absolute top-0 left-2 translate-y-1/2 text-3xl text-secondary cursor-pointer lg:hidden"
         @click="toggleSidebar"></i>
@@ -9,11 +9,11 @@
         <img src="/sic-logo.png" class="w-40 my-4" alt="Logo SIC">
       </RouterLink>
       <div class="p-4 shadow-none hover:shadow-2xl rounded-md w-full bg-white transition-all duration-[250ms]">
-        <RouterLink to="#" class="font-bold font-jakarta-sans"><i class="bi bi-pencil mr-4"></i>Ajukan Surat
+        <RouterLink to="admin/ajukan-surat" class="font-bold font-jakarta-sans"><i class="bi bi-pencil mr-4"></i>Ajukan Surat
         </RouterLink>
       </div>
-      <NavItem icon="bi-file-earmark-fill" text="Manajemen Surat" />
-      <NavItem icon="bi-person-gear" text="Manajemen Akses" />
+      <NavItem icon="bi-file-earmark-fill" text="Manajemen Surat" to="/admin/surat" :isActive="$route.path === '/admin/surat'"/>
+      <NavItem icon="bi-person-gear" text="Manajemen Akses" to="/admin/manajemen-akses" :isActive="$route.path === '/admin/manajemen-akses'"/>
       <div class="p-4 rounded-md w-full hover:bg-danger group transition-all duration-200">
         <RouterLink to="#" class="text-danger font-jakarta-sans group-hover:text-white">
           <i class="bi bi-box-arrow-right mr-4"></i>

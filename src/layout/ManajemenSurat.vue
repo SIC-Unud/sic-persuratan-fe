@@ -5,11 +5,11 @@
       <div class="flex gap-1 md:gap-2 md:pt-2">
         <label>Tampilkan</label>
         <div>
-          <select id="opsi" name="">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
+          <select id="opsi" @change="changeEntries" :value="entriesPerPage">
+            <option :value="10">10</option>
+            <option :value="25">25</option>
+            <option :value="50">50</option>
+            <option :value="100">100</option>
           </select>
         </div>
         <label>entri</label>
@@ -46,11 +46,13 @@
 
       <!-- Table Body -->
       <div
-        v-for="(surat, index) in daftarSurat"
-        :key="index"
+        v-for="(surat, index) in paginatedSurat"
+        :key="surat.id"
         class="flex items-start border-b pt-2 pb-6 text-xs font-medium font-jakarta-sans md:py-2 md:text-base"
       >
-        <p class="w-2/12 pl-4 md:w-1/12 md:pr-16 md:text-right">{{ index + 1 }}</p>
+        <p class="w-2/12 pl-4 md:w-1/12 md:pr-16 md:text-right">
+          {{ (currentPage - 1) * entriesPerPage + index + 1 }}
+        </p>
         <p class="w-5/12 md:w-2/12">{{ surat.nomorSurat }}</p>
         <p class="w-5/12 md:w-2/12">{{ surat.sumberSurat }}</p>
         <p class="hidden w-2/12 md:block">{{ surat.jenisSurat }}</p>
@@ -61,7 +63,9 @@
             :class="{
               'text-red-500 font-bold bg-red-500 bg-opacity-10 border border-red-500 rounded-3xl p-2': surat.status === 'Menunggu diajukan',
               'text-yellow-500 font-bold bg-yellow-500 bg-opacity-10 border border-yellow-500 rounded-3xl p-2': surat.status === 'Sedang diajukan',
-              'text-green-500 font-bold bg-green-500 bg-opacity-10 border border-green-500 rounded-3xl p-2': surat.status === 'Selesai diajukan'
+              'text-green-500 font-bold bg-green-500 bg-opacity-10 border border-green-500 rounded-3xl p-2': surat.status === 'Selesai diajukan',
+              'text-red-600 font-bold bg-red-500 bg-opacity-10 border border-red-500 rounded-3xl p-2': surat.status === 'Ditolak',
+              'text-red-700 font-bold bg-red-500 bg-opacity-10 border border-red-500 rounded-3xl p-2': surat.status === 'Dibatalkan'
             }"
           >
             {{ surat.status }}
@@ -70,18 +74,15 @@
 
         <div class="hidden w-1/12 items-center justify-center gap-1 py-[10px] md:flex md:gap-1">
           <RouterLink :to="{ name: 'admin-detail-surat', params: { id: surat.id } }">
-            <button>
-            <svg width="27" height="27" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <button> 
+              <svg width="27" height="27" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18 9.75C23.685 9.75 28.755 12.945 31.23 18C28.755 23.055 23.685 26.25 18 26.25C12.315 26.25 7.245 23.055 4.77 18C7.245 12.945 12.315 9.75 18 9.75ZM18 6.75C10.5 6.75 4.095 11.415 1.5 18C4.095 24.585 10.5 29.25 18 29.25C25.5 29.25 31.905 24.585 34.5 18C31.905 11.415 25.5 6.75 18 6.75ZM18 14.25C20.07 14.25 21.75 15.93 21.75 18C21.75 20.07 20.07 21.75 18 21.75C15.93 21.75 14.25 20.07 14.25 18C14.25 15.93 15.93 14.25 18 14.25ZM18 11.25C14.28 11.25 11.25 14.28 11.25 18C11.25 21.72 14.28 24.75 18 24.75C21.72 24.75 24.75 21.72 24.75 18C24.75 14.28 21.72 11.25 18 11.25Z" fill="#63A8E7" />
             </svg>
-          </button>
+            </button>
           </RouterLink>
-          
-
-          <button>
-            <svg width="27" height="27" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button> <svg width="27" height="27" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M24 13.5V28.5H12V13.5H24ZM21.75 4.5H14.25L12.75 6H7.5V9H28.5V6H23.25L21.75 4.5ZM27 10.5H9V28.5C9 30.15 10.35 31.5 12 31.5H24C25.65 31.5 27 30.15 27 28.5V10.5Z" fill="#D72638" />
-            </svg>
+            </svg> 
           </button>
         </div>
       </div>
@@ -89,31 +90,45 @@
       <!-- Table Footer -->
       <div class="mt-4 flex justify-between md:mx-6">
         <div class="text-xs font-medium text-dark md:text-base">
-          <label>Menampilkan </label> 
+          <label>Menampilkan </label>
           <span class="text-primary">
-            {{ daftarSurat.length  }}
-          </span> 
-          <label> dari </label>
-          <span class="text-primary">
-            {{ totalSurat }}
+            {{ (currentPage - 1) * entriesPerPage + 1 }}
           </span>
+          -
+          <span class="text-primary">
+            {{
+              Math.min(currentPage * entriesPerPage, daftarSurat.length)
+            }}
+          </span>
+          <label> dari </label>
+          <span class="text-primary">{{ daftarSurat.length }}</span>
           <label> entri</label>
         </div>
 
         <div class="grid auto-cols-fr grid-flow-col overflow-hidden rounded-md border border-primary text-center text-xs text-primary md:rounded-lg md:text-base">
-          <button class="border-r border-primary px-1 py-1 md:px-3 md:py-2">
+          <button
+            class="border-r border-primary px-1 py-1 md:px-3 md:py-2"
+            @click="changePage(currentPage - 1)"
+            :disabled="currentPage === 1"
+          >
             <i class="bi-chevron-left"></i>
           </button>
-          <button class="border-r border-primary px-2 py-1 font-jakarta-sans focus:bg-primary focus:text-white md:px-4 md:py-2">
-            1
+
+          <button
+            v-for="page in totalPages"
+            :key="page"
+            class="border-r border-primary px-2 py-1 font-jakarta-sans focus:bg-primary focus:text-white md:px-4 md:py-2"
+            @click="changePage(page)"
+            :class="{ 'bg-primary text-white': page === currentPage }"
+          >
+            {{ page }}
           </button>
-          <button class="border-r border-primary px-2 py-1 font-jakarta-sans focus:bg-primary focus:text-white md:px-4 md:py-2">
-            2
-          </button>
-          <button class="border-r border-primary px-2 py-1 font-jakarta-sans focus:bg-primary focus:text-white md:px-4 md:py-2">
-            3
-          </button>
-          <button class="px-1 py-1 md:px-3 md:py-2">
+
+          <button
+            class="px-1 py-1 md:px-3 md:py-2"
+            @click="changePage(currentPage + 1)"
+            :disabled="currentPage === totalPages"
+          >
             <i class="bi bi-chevron-right"></i>
           </button>
         </div>
@@ -124,8 +139,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { suratList } from '@/data/suratList.js'
 
 const daftarSurat = ref(suratList)
+
+const currentPage = ref(1)
+const entriesPerPage = ref(10)
+
+const totalPages = computed(() => {
+  return Math.ceil(daftarSurat.value.length / entriesPerPage.value)
+})
+
+const paginatedSurat = computed(() => {
+  const start = (currentPage.value - 1) * entriesPerPage.value
+  const end = start + entriesPerPage.value
+  return daftarSurat.value.slice(start, end)
+})
+
+watch(entriesPerPage, () => {
+  currentPage.value = 1
+})
+
+const changePage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+
+const changeEntries = (e) => {
+  entriesPerPage.value = parseInt(e.target.value, 10)
+}
 </script>

@@ -4,10 +4,16 @@ import AboutView from '@/views/AboutView.vue'
 import ManajemenSuratView from '@/views/AdminManajemenSuratView.vue'
 import DetailSuratView from '@/views/DetailSuratView.vue'
 import UpdateSuratView from '@/views/UpdateSuratView.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+    },
     {
       path: '/admin/surat',
       name: 'manajemen-surat',

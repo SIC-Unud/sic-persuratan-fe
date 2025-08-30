@@ -64,9 +64,9 @@
         <div>
           <label class="block text-base font-normal text-content">Status Surat</label>
           <select v-model="form.status" class="w-full p-2 border border-gray-300 rounded-lg">
-            <option value="Menunggu Diajukan">Menunggu Diajukan</option>
-            <option value="Sedang Diajukan">Sedang Diajukan</option>
-            <option value="Berhasil Diajukan">Berhasil Diajukan</option>
+            <option value="Menunggu diajukan">Menunggu Diajukan</option>
+            <option value="Sedang diajukan">Sedang Diajukan</option>
+            <option value="Berhasil diajukan">Berhasil Diajukan</option>
             <option value="Ditolak">Ditolak</option>
             <option value="Dibatalkan">Dibatalkan</option>
           </select>
@@ -108,11 +108,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import DashboardLayout from '@/layout/DashboardLayout.vue'
 import { suratList } from '@/data/suratList.js'
 
 const route = useRoute()
+const router = useRouter()
 
 // Form kosong default
 const form = ref({
@@ -131,34 +132,24 @@ const form = ref({
   linkPendukung: '',
 })
 
-// Isi form setelah component dimount
 onMounted(() => {
   const id = parseInt(route.params.id)
   const surat = suratList.find(s => s.id === id)
 
   if (surat) {
-    form.value = {
-      namaPengaju: surat.namaPengaju || '',
-      temaKegiatan: surat.temaKegiatan || '',
-      sumberSurat: surat.sumberSurat || '',
-      tanggal: surat.tanggal || '',
-      pukul: surat.pukul || '',
-      jenisSurat: surat.jenisSurat || '',
-      tempat: surat.tempat || '',
-      nomorSurat: surat.nomorSurat || '',
-      status: surat.status || '',
-      tujuan: surat.tujuan || '',
-      keterangan: surat.keterangan || '',
-      namaKegiatan: surat.namaKegiatan || '',
-      linkPendukung: surat.linkPendukung || '',
-    }
+    form.value = { ...surat }
   } else {
     console.warn('Surat tidak ditemukan dengan ID:', id)
   }
 })
 
 function simpanSurat() {
-  console.log('Form disimpan:', form.value)
-  // TODO: Kirim ke API atau update state
+  const id = parseInt(route.params.id)
+  const index = suratList.findIndex(s => s.id === id)
+
+  if (index !== -1) {
+    suratList[index] = { id, ...form.value }
+  }
+  router.push(`/admin/surat/${id}`)
 }
 </script>
