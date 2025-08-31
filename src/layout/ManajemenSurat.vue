@@ -80,7 +80,8 @@
             </svg>
             </button>
           </RouterLink>
-          <button> <svg width="27" height="27" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button @click="openDeleteModal(surat.id)"> 
+            <svg width="27" height="27" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M24 13.5V28.5H12V13.5H24ZM21.75 4.5H14.25L12.75 6H7.5V9H28.5V6H23.25L21.75 4.5ZM27 10.5H9V28.5C9 30.15 10.35 31.5 12 31.5H24C25.65 31.5 27 30.15 27 28.5V10.5Z" fill="#D72638" />
             </svg> 
           </button>
@@ -134,6 +135,12 @@
         </div>
       </div>
     </div>
+    <ValidasiPopup
+      v-if="showDeleteModal"
+      :show="showDeleteModal"
+      @cancel="showDeleteModal = false"
+      @confirm="confirmDelete"
+    />
   </main>
   <router-view></router-view>
 </template>
@@ -141,8 +148,11 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { suratList } from '@/data/suratList.js'
+import ValidasiPopup from '@/components/ValidasiPopup.vue'
 
 const daftarSurat = ref(suratList)
+const showDeleteModal = ref(false)
+const selectedSuratId = ref(null)
 
 const currentPage = ref(1)
 const entriesPerPage = ref(10)
@@ -169,5 +179,15 @@ const changePage = (page) => {
 
 const changeEntries = (e) => {
   entriesPerPage.value = parseInt(e.target.value, 10)
+}
+
+const openDeleteModal = (id) => {
+  selectedSuratId.value = id
+  showDeleteModal.value = true
+}
+
+const confirmDelete = () => {
+  daftarSurat.value = daftarSurat.value.filter(surat => surat.id !== selectedSuratId.value)
+  showDeleteModal.value = false
 }
 </script>

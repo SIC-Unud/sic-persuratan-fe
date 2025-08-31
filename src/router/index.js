@@ -21,6 +21,22 @@ const router = createRouter({
       component: LoginView,
     },
     {
+      path: '/ajukan-surat',
+      name: 'ajukan-surat',
+      component: AjukanSurat,
+    },
+    {
+      path: '/surat',
+      name: 'manajemen-surat',
+      component: ManajemenSuratView,
+    },
+    {
+      path: '/surat/:id',
+      name: 'admin-detail-surat',
+      component: DetailSuratView,
+      // meta: { requiresAdmin: true }
+    },
+    {
       path: '/admin/ajukan-surat',
       name: 'ajukan-surat',
       component: AjukanSurat,
