@@ -5,6 +5,12 @@ import ManajemenSuratView from '@/views/AdminManajemenSuratView.vue'
 import DetailSuratView from '@/views/DetailSuratView.vue'
 import UpdateSuratView from '@/views/UpdateSuratView.vue'
 import LoginView from '@/views/LoginView.vue'
+import TambahData from "@/components/TambahData.vue";
+import EditData from "@/components/EditData.vue";
+import ValidasiPopup from "@/components/ValidasiPopup.vue";
+import ManajemenAksesView from "@/views/ManajemenAksesView.vue";
+import DetailAksesView from "@/views/DetailAksesView.vue";
+import AjukanSurat from '@/views/ajukanSurat.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +19,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+    {
+      path: '/admin/ajukan-surat',
+      name: 'ajukan-surat',
+      component: AjukanSurat,
     },
     {
       path: '/admin/surat',
@@ -30,7 +41,41 @@ const router = createRouter({
       name: 'admin-update-surat',
       component: UpdateSuratView,
       // meta: { requiresAdmin: true }
-    }
+    },
+    {
+      path: "/admin/manajemen-akses",
+      name: "manajemen-akses",
+      component: ManajemenAksesView,
+      children: [
+        {
+          path: "tambah-data",
+          name: "tambah-data",
+          component: TambahData,
+        },
+        {
+          path: "hapus-data",
+          name: "hapus-data",
+          component: ValidasiPopup,
+        },
+      ],
+    },
+    {
+      path: "/admin/detail-akses/:id",
+      name: "detail-akses",
+      component: DetailAksesView,
+      children: [
+        {
+          path: "edit-data-akses",
+          name: "edit-data-akses",
+          component: EditData,
+        },
+        {
+          path: "hapus-detail",
+          name: "hapus-detail",
+          component: ValidasiPopup,
+        },
+      ],
+    },
   ]
 })
 

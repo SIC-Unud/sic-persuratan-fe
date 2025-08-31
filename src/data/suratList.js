@@ -49,8 +49,8 @@ export const suratList = [
   },
   {
     id: 4,
-    namaPengaju: "Rani",
-    temaKegiatan: "Bakti Sosial",
+    namaPengaju: "Ardy",
+    temaKegiatan: "Lomba",
     sumberSurat: "Surat Organisasi",
     tanggal: "22 Oktober 2023",
     pukul: "08.00 - 12.00",
@@ -60,13 +60,13 @@ export const suratList = [
     status: "Selesai diajukan",
     tujuan: "Permohonan Dana",
     keterangan: "Akan membawa donasi dari kampus",
-    namaKegiatan: "Berbagi Kasih",
+    namaKegiatan: "Lomba Coding",
     linkPendukung: "Tidak ada link pendukung"
   },
   {
     id: 5,
     namaPengaju: "Rani",
-    temaKegiatan: "Bakti Sosial",
+    temaKegiatan: "Workshop",
     sumberSurat: "Surat Organisasi",
     tanggal: "22 Oktober 2023",
     pukul: "08.00 - 12.00",
@@ -76,13 +76,13 @@ export const suratList = [
     status: "Selesai diajukan",
     tujuan: "Permohonan Dana",
     keterangan: "Akan membawa donasi dari kampus",
-    namaKegiatan: "Berbagi Kasih",
+    namaKegiatan: "Workshop UI/UX",
     linkPendukung: "Tidak ada link pendukung"
   },
   {
     id: 6,
     namaPengaju: "Rani",
-    temaKegiatan: "Bakti Sosial",
+    temaKegiatan: "lomba",
     sumberSurat: "Surat Organisasi",
     tanggal: "22 Oktober 2023",
     pukul: "08.00 - 12.00",
@@ -92,13 +92,13 @@ export const suratList = [
     status: "Selesai diajukan",
     tujuan: "Permohonan Dana",
     keterangan: "Akan membawa donasi dari kampus",
-    namaKegiatan: "Berbagi Kasih",
+    namaKegiatan: "SICHKATON",
     linkPendukung: "Tidak ada link pendukung"
   },
   {
     id: 7,
     namaPengaju: "Rani",
-    temaKegiatan: "Bakti Sosial",
+    temaKegiatan: "Workshop",
     sumberSurat: "Surat Organisasi",
     tanggal: "22 Oktober 2023",
     pukul: "08.00 - 12.00",
@@ -108,13 +108,13 @@ export const suratList = [
     status: "Selesai diajukan",
     tujuan: "Permohonan Dana",
     keterangan: "Akan membawa donasi dari kampus",
-    namaKegiatan: "Berbagi Kasih",
+    namaKegiatan: "STACK",
     linkPendukung: "Tidak ada link pendukung"
   },
   {
     id: 8,
     namaPengaju: "Rani",
-    temaKegiatan: "Bakti Sosial",
+    temaKegiatan: "Musyawarah",
     sumberSurat: "Surat Organisasi",
     tanggal: "22 Oktober 2023",
     pukul: "08.00 - 12.00",
@@ -124,7 +124,7 @@ export const suratList = [
     status: "Selesai diajukan",
     tujuan: "Permohonan Dana",
     keterangan: "Akan membawa donasi dari kampus",
-    namaKegiatan: "Berbagi Kasih",
+    namaKegiatan: "MUSSIC",
     linkPendukung: "Tidak ada link pendukung"
   },
   {

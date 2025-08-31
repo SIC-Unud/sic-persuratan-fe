@@ -72,7 +72,7 @@
         <div class="w-full">
           <label class="block text-base font-normal text-content">Nomor Surat</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-black">{{ surat.nomorSurat }}n</p>
+            <p class="font-medium text-black">{{ surat.nomorSurat }}</p>
           </div>
         </div>
         <div class="w-full">

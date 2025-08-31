@@ -1,5 +1,5 @@
 <template>
-  <main class="h-full w-full min-h-[83vh] font-jakarta-sans md:col-span-9">
+  <main class="h-full w-full min-h-[83vh] font-jakarta-sans md:col-span-9 relative">
     <!-- Header -->
     <div class="flex justify-between text-xs pb-2 md:pb-3 md:mx-6 md:text-base">
       <div class="flex gap-1 md:gap-2 md:pt-2">

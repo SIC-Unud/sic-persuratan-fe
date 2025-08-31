@@ -9,7 +9,7 @@
         <img src="/sic-logo.png" class="w-40 my-4" alt="Logo SIC">
       </RouterLink>
       <div class="p-4 shadow-none hover:shadow-2xl rounded-md w-full bg-white transition-all duration-[250ms]">
-        <RouterLink to="admin/ajukan-surat" class="font-bold font-jakarta-sans"><i class="bi bi-pencil mr-4"></i>Ajukan Surat
+        <RouterLink to="/admin/ajukan-surat" class="font-bold font-jakarta-sans"><i class="bi bi-pencil mr-4"></i>Ajukan Surat
         </RouterLink>
       </div>
       <NavItem icon="bi-file-earmark-fill" text="Manajemen Surat" to="/admin/surat" :isActive="$route.path === '/admin/surat'"/>
@@ -21,8 +21,9 @@
         </RouterLink>
       </div>
     </nav>
+
     <div class="container font-inter col-span-12 lg:col-span-10 lg:pr-4">
-      <header class="w-full md:mt-4 flex justify-between lg:justify-end bg-white md:rounded-lg p-4">
+      <header class="w-full mt-4 flex justify-between lg:justify-end bg-white lg:rounded-3xl p-4">
         <div class="lg:hidden">
           <i class="bi bi-list text-3xl text-secondary cursor-pointer" @click="toggleSidebar"></i>
         </div>
@@ -34,18 +35,25 @@
           <img src="/default.png" alt="default profile picture" class="w-12">
         </div>
       </header>
+
       <main class="md:col-span-9">
         <div class="container bg-white md:rounded-lg p-4 md:mt-4">
           <slot></slot>
         </div>
       </main>
+
     </div>
   </div>
+
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import NavItem from '@/components/NavItem.vue'
+import router from '@/router'; 
+
+const route = useRoute();
 
 const isSidebarShowed = ref(false);
 
