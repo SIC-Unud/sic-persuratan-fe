@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
-import ManajemenSuratView from '@/views/AdminManajemenSuratView.vue'
-import DetailSuratView from '@/views/DetailSuratView.vue'
+import DetailSuratView from '@/views/AdminDetailSuratView.vue'
 import UpdateSuratView from '@/views/UpdateSuratView.vue'
 import LoginView from '@/views/LoginView.vue'
 import TambahData from "@/components/TambahData.vue";
@@ -11,6 +10,8 @@ import ValidasiPopup from "@/components/ValidasiPopup.vue";
 import ManajemenAksesView from "@/views/ManajemenAksesView.vue";
 import DetailAksesView from "@/views/DetailAksesView.vue";
 import AjukanSurat from '@/views/ajukanSurat.vue'
+import AdminManajemenSuratView from '@/views/AdminManajemenSuratView.vue'
+import ManajemenSuratView from '@/views/ManajemenSuratView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,13 +39,13 @@ const router = createRouter({
     },
     {
       path: '/admin/ajukan-surat',
-      name: 'ajukan-surat',
+      name: 'admin-ajukan-surat',
       component: AjukanSurat,
     },
     {
       path: '/admin/surat',
-      name: 'manajemen-surat',
-      component: ManajemenSuratView,
+      name: 'admin-manajemen-surat',
+      component: AdminManajemenSuratView,
     },
     {
       path: '/admin/surat/:id',

@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <UserDashboardLayout>
     
       <main class="h-full w-full min-h-[83vh] font-jakarta-sans md:col-span-9 relative">
         <!-- Header -->
@@ -38,7 +38,7 @@
         <div class="overflow-x-auto">
           <div class="flex items-start border-y pt-2 pb-4 text-sm font-bold font-inter md:text-base">
             <p class="w-2/12 md:w-1/12 md:pr-16 md:text-right">No</p>
-            <p class="w-5/12 md:w-2/12">Nomor Surat</p>
+            <p class="w-5/12 md:w-3/12">Nomor Surat</p>
             <p class="w-5/12 md:w-2/12">Sumber Surat</p>
             <p class="hidden w-2/12 md:block">Jenis Surat</p>
             <p class="hidden w-2/12 md:block">Nama Kegiatan</p>
@@ -50,18 +50,20 @@
           <div
             v-for="(surat, index) in paginatedSurat"
             :key="surat.id"
-            class="flex flex-wrap items-start border-b pt-2 pb-6 text-xs font-medium font-jakarta-sans md:py-2 md:text-base"
+            class="flex items-start border-b pt-2 pb-6 text-xs font-medium font-jakarta-sans md:py-2 md:text-base"
           >
-            <p class="w-2/12 pl-4 md:w-1/12 md:pr-16 md:text-right">{{ (currentPage - 1) * entriesPerPage + index + 1 }}</p>
-            <p class="w-5/12 md:w-2/12 md:block overflow-x-auto">{{ surat.nomorSurat }}</p>
-            <p class="w-5/12 md:w-2/12 md:block break-all whitespace-normal">{{ surat.sumberSurat }}</p>
-            <p class="hidden w-2/12 md:block break-all whitespace-normal">{{ surat.jenisSurat }}</p>
-            <p class="hidden w-2/12 md:block break-all whitespace-normal">{{ surat.namaKegiatan }}</p>
+            <p class="w-2/12 pl-4 md:w-1/12 md:text-left">
+              {{ (currentPage - 1) * entriesPerPage + index + 1 }}
+            </p>
+            <p class="w-5/12 md:w-3/12 break-word whitespace-normal">{{ surat.nomorSurat }}</p>
+            <p class="w-5/12 md:w-2/12 break-word whitespace-normal">{{ surat.sumberSurat }}</p>
+            <p class="hidden w-2/12 md:block break-word whitespace-normal">{{ surat.jenisSurat }}</p>
+            <p class="hidden w-2/12 md:block break-word whitespace-normal">{{ surat.namaKegiatan }}</p>
 
             <div class="hidden w-2/12 py-[10px] md:block">
               <span
                 :class="{
-                  'text-red-500 font-bold bg-red-500 bg-opacity-10 border border-red-500 rounded-3xl': surat.status === 'Menunggu diajukan',
+                  'text-red-500 font-bold bg-red-500 bg-opacity-10 border border-red-500 rounded-3xl p-2ait': surat.status === 'Menunggu diajukan',
                   'text-yellow-500 font-bold bg-yellow-500 bg-opacity-10 border border-yellow-500 rounded-3xl p-2': surat.status === 'Sedang diajukan',
                   'text-green-500 font-bold bg-green-500 bg-opacity-10 border border-green-500 rounded-3xl p-2': surat.status === 'Selesai diajukan',
                   'text-red-600 font-bold bg-red-500 bg-opacity-10 border border-red-500 rounded-3xl p-2': surat.status === 'Ditolak',
@@ -80,11 +82,6 @@
                 </svg>
                 </button>
               </RouterLink>
-              <button @click="openDeleteModal(surat.id)"> 
-                <svg width="27" height="27" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M24 13.5V28.5H12V13.5H24ZM21.75 4.5H14.25L12.75 6H7.5V9H28.5V6H23.25L21.75 4.5ZM27 10.5H9V28.5C9 30.15 10.35 31.5 12 31.5H24C25.65 31.5 27 30.15 27 28.5V10.5Z" fill="#D72638" />
-                </svg> 
-              </button>
             </div>
           </div>
 
@@ -135,26 +132,17 @@
             </div>
           </div>
         </div>
-        <ValidasiPopup
-          v-if="showDeleteModal"
-          :show="showDeleteModal"
-          @cancel="showDeleteModal = false"
-          @confirm="confirmDelete"
-        />
       </main>
       <router-view></router-view>
-    </DashboardLayout>
+    </UserDashboardLayout>
 </template>
 
 <script setup>
-import DashboardLayout from '@/layout/DashboardLayout.vue'
+import UserDashboardLayout from '@/layout/UserDashboardLayout.vue'
 import { ref, computed, watch } from 'vue'
 import { suratList } from '@/data/suratList.js'
-import ValidasiPopup from '@/components/ValidasiPopup.vue'
 
 const daftarSurat = ref(suratList)
-const showDeleteModal = ref(false)
-const selectedSuratId = ref(null)
 
 const currentPage = ref(1)
 const entriesPerPage = ref(10)
@@ -181,15 +169,5 @@ const changePage = (page) => {
 
 const changeEntries = (e) => {
   entriesPerPage.value = parseInt(e.target.value, 10)
-}
-
-const openDeleteModal = (id) => {
-  selectedSuratId.value = id
-  showDeleteModal.value = true
-}
-
-const confirmDelete = () => {
-  daftarSurat.value = daftarSurat.value.filter(surat => surat.id !== selectedSuratId.value)
-  showDeleteModal.value = false
 }
 </script>

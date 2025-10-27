@@ -54,22 +54,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { login } from '../service/AuthAPI.js';
 
-const email = ref('')
-const password = ref('')
-const router = useRouter()
+const router = useRouter();
 
-const handleSubmit = () => {
-  if (email.value && password.value) {
-    console.log('Email:', email.value)
-    console.log('Password:', password.value)
+const username = ref('');
+const password = ref('');
+const message = ref('');
 
-    // Redirect ke dashboard
-    router.push('admin/surat')
-  } else {
-    alert('Email dan password wajib diisi!')
+async function handleLogin() {
+  
+  message.value = ''
+  try {
+    const data = await login({
+      username: username.value,
+      password: password.value,
+    })
+    
+
+    if (data?.token) {
+      localStorage.setItem('token', data.token)
+      message.value = 'Login sukses! Mengarahkan ke dashboard...'
+      router.push('/admin/surat') // 🔹 pakai absolute path
+    } else {
+      message.value = 'Login gagal: password atau email salah'
+    }
+  } catch (e) {
+    console.error('login error:', e)
+    message.value = e.response?.data?.message || 'Login gagal'
   }
 }
 </script>
