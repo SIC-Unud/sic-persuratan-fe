@@ -9,11 +9,10 @@
         <img src="/sic-logo.png" class="w-40 my-4" alt="Logo SIC">
       </RouterLink>
       <div class="p-4 shadow-none hover:shadow-2xl rounded-md w-full bg-white transition-all duration-[250ms]">
-        <RouterLink to="/admin/ajukan-surat" class="font-bold font-jakarta-sans"><i class="bi bi-pencil mr-4"></i>Ajukan Surat
+        <RouterLink to="/ajukan-surat" class="font-bold font-jakarta-sans"><i class="bi bi-pencil mr-4"></i>Ajukan Surat
         </RouterLink>
       </div>
-      <NavItem icon="bi-file-earmark-fill" text="Manajemen Surat" to="/admin/surat" :isActive="$route.path === '/admin/surat'"/>
-      <NavItem icon="bi-person-gear" text="Manajemen Akses" to="/admin/manajemen-akses" :isActive="$route.path === '/admin/manajemen-akses'"/>
+      <NavItem icon="bi-file-earmark-fill" text="Manajemen Surat" to="/surat" :isActive="$route.path === '/surat'"/>
       <div class="p-4 rounded-md w-full hover:bg-danger group transition-all duration-200">
         <RouterLink to="#" class="text-danger font-jakarta-sans group-hover:text-white">
           <i class="bi bi-box-arrow-right mr-4"></i>
