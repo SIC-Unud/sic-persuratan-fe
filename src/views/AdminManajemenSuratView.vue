@@ -148,17 +148,51 @@
 
 <script setup>
 import DashboardLayout from '@/layout/DashboardLayout.vue'
-import { ref, computed, watch } from 'vue'
-import { suratList } from '@/data/suratList.js'
+import { ref, computed, watch, onMounted } from 'vue'
+import api from '@/service/API'             
 import ValidasiPopup from '@/components/ValidasiPopup.vue'
 
-const daftarSurat = ref(suratList)
+const daftarSurat = ref([])
 const showDeleteModal = ref(false)
 const selectedSuratId = ref(null)
 
 const currentPage = ref(1)
 const entriesPerPage = ref(10)
 
+const loading = ref(false)
+const error = ref(null)
+
+/**
+ * GET /v1/pengajuan-surat?page=&perPage=
+ * TOKEN OTOMATIS DARI api.js (interceptor)
+ */
+const fetchSurat = async () => {
+  loading.value = true
+  error.value = null
+
+  try {
+    const res = await api.get("/v1/pengajuan-surat", {
+      params: {
+        page: currentPage.value,
+        perPage: entriesPerPage.value,
+      }
+    })
+
+    daftarSurat.value = res.data.data
+
+  } catch (err) {
+    console.error(err)
+    error.value = err
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchSurat()
+})
+
+// Pagination (local)
 const totalPages = computed(() => {
   return Math.ceil(daftarSurat.value.length / entriesPerPage.value)
 })
@@ -171,11 +205,13 @@ const paginatedSurat = computed(() => {
 
 watch(entriesPerPage, () => {
   currentPage.value = 1
+  fetchSurat()
 })
 
 const changePage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page
+    fetchSurat()
   }
 }
 
@@ -189,7 +225,9 @@ const openDeleteModal = (id) => {
 }
 
 const confirmDelete = () => {
-  daftarSurat.value = daftarSurat.value.filter(surat => surat.id !== selectedSuratId.value)
+  daftarSurat.value = daftarSurat.value.filter(
+    surat => surat.id !== selectedSuratId.value
+  )
   showDeleteModal.value = false
 }
 </script>

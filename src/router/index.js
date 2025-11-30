@@ -35,7 +35,7 @@ const router = createRouter({
       path: '/surat/:id',
       name: 'admin-detail-surat',
       component: DetailSuratView,
-      // meta: { requiresAdmin: true }
+      meta: { requiresAdmin: true }
     },
     {
       path: '/admin/ajukan-surat',
@@ -51,13 +51,13 @@ const router = createRouter({
       path: '/admin/surat/:id',
       name: 'admin-detail-surat',
       component: DetailSuratView,
-      // meta: { requiresAdmin: true }
+      meta: { requiresAdmin: true }
     },
     {
       path: '/admin/surat/:id/update-surat',
       name: 'admin-update-surat',
       component: UpdateSuratView,
-      // meta: { requiresAdmin: true }
+      meta: { requiresAdmin: true }
     },
     {
       path: "/admin/manajemen-akses",
@@ -96,20 +96,20 @@ const router = createRouter({
   ]
 })
 
-// // Middleware untuk proteksi rute
-// router.beforeEach((to, from, next) => {
-//   const roleId = parseInt(localStorage.getItem('role_id') || '0')
+// Middleware untuk proteksi rute
+router.beforeEach((to, from, next) => {
+  const roleId = parseInt(localStorage.getItem('role_id') || '0')
 
-//   // Jika user sudah login dan mencoba ke /login lagi, arahkan sesuai role
-//   if (to.path === '/login' && roleId) {
-//     if (roleId === 1) return next('/admin/surat')
-//     return next('/surat')
-//   }
+  // Jika user sudah login dan mencoba ke /login lagi, arahkan sesuai role
+  if (to.path === '/login' && roleId) {
+    if (roleId === 1) return next('/admin/surat')
+    return next('/surat')
+  }
 
-//   // Proteksi akses admin
-//   if (to.meta.requiresAdmin && roleId !== 1) return next('/login')
+  // Proteksi akses admin
+  if (to.meta.requiresAdmin && roleId !== 1) return next('/login')
 
-//   next()
-// })
+  next()
+})
 
 export default router

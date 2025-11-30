@@ -12,16 +12,16 @@
           Selamat Datang!
         </h1>
         <p class="text-base lg:text-[20px] custom-gray mb-6 text-center lg:text-left">
-          Silahkan masukkan email dan passwordmu untuk masuk
+          Silahkan masukkan username dan passwordmu untuk masuk
         </p>
 
         <form class="space-y-4" @submit.prevent="handleSubmit">
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
             <input
-              type="email"
-              id="email"
-              v-model="email"
+              type="text"
+              id="username"
+              v-model="username"
               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
             />
           </div>
@@ -64,26 +64,25 @@ const username = ref('');
 const password = ref('');
 const message = ref('');
 
-async function handleLogin() {
-  
-  message.value = ''
+async function handleSubmit() { 
+  message.value = '';
+
   try {
     const data = await login({
       username: username.value,
       password: password.value,
-    })
-    
+    });
 
     if (data?.token) {
-      localStorage.setItem('token', data.token)
-      message.value = 'Login sukses! Mengarahkan ke dashboard...'
-      router.push('/admin/surat') // 🔹 pakai absolute path
+      localStorage.setItem('token', data.token);
+      message.value = 'Login sukses! Mengarahkan ke dashboard...';
+      router.push('/admin/surat');
     } else {
-      message.value = 'Login gagal: password atau email salah'
+      message.value = 'Login gagal: username atau password salah';
     }
   } catch (e) {
-    console.error('login error:', e)
-    message.value = e.response?.data?.message || 'Login gagal'
+    console.error('login error:', e);
+    message.value = e.response?.data?.message || 'Login gagal';
   }
 }
 </script>
