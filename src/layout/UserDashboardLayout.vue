@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-12 gap-4 relative lg:static">
     <nav
-      class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-full p-4 lg:static absolute -left-full transition-all duration-200"
+      class="flex flex-col gap-2 items-center col-span-2 bg-white w-full h-screen p-4 lg:static absolute -left-full transition-all duration-200"
       :class="sidebarClass">
       <i class="bi bi-x-lg absolute top-0 left-2 translate-y-1/2 text-3xl text-secondary cursor-pointer lg:hidden"
         @click="toggleSidebar"></i>
@@ -14,10 +14,10 @@
       </div>
       <NavItem icon="bi-file-earmark-fill" text="Manajemen Surat" to="/surat" :isActive="$route.path === '/surat'"/>
       <div class="p-4 rounded-md w-full hover:bg-danger group transition-all duration-200">
-        <RouterLink to="#" class="text-danger font-jakarta-sans group-hover:text-white">
+        <button @click="handleLogout" class="text-danger font-jakarta-sans group-hover:text-white">
           <i class="bi bi-box-arrow-right mr-4"></i>
           Keluar
-        </RouterLink>
+        </button>
       </div>
     </nav>
 
@@ -37,7 +37,7 @@
 
       <main class="md:col-span-9">
         <div class="container bg-white md:rounded-lg p-4 md:mt-4">
-          <slot></slot>
+          <router-view />
         </div>
       </main>
 
@@ -51,6 +51,7 @@ import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import NavItem from '@/components/NavItem.vue'
 import router from '@/router'; 
+import { logout } from '@/service/AuthAPI.js';
 
 const route = useRoute();
 
@@ -62,5 +63,17 @@ const sidebarClass = computed(() => {
 
 function toggleSidebar() {
   isSidebarShowed.value = !isSidebarShowed.value;
+}
+
+async function handleLogout() {
+  try {
+    await logout()
+  } catch (e) {
+    console.warn('Logout API gagal, lanjut FE logout')
+  } finally {
+    localStorage.removeItem('token')
+    localStorage.removeItem('role')
+    router.push('/login')
+  }
 }
 </script>

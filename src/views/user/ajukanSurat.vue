@@ -61,12 +61,12 @@ import { ref } from 'vue';
 const router = useRouter();
 
 function closePopup() {
-  router.push('/admin/surat'); 
+  router.push('/surat'); 
 }
 
 function sendData() {
   console.log('Form disimpan!');
 
-  router.push('/admin/surat');
+  router.push('/surat');
 }
 </script>

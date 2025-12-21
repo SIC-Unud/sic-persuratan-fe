@@ -1,5 +1,7 @@
 import API from './API';
 
 export function login(payload) {
-    return API.post('/auth/signin', payload).then(res => res.data);
+    return API.post('/auth/signin', payload);
 }
+
+export const logout = () => API.post('/auth/signout')

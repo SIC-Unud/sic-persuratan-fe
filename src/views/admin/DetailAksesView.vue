@@ -1,7 +1,5 @@
 <template>
-  <DashboardLayout>
     <DetailAkses></DetailAkses>
-  </DashboardLayout>
 </template>
 
 <script setup>

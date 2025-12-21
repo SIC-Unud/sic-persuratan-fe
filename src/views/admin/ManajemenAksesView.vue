@@ -1,7 +1,5 @@
 <template>
-  <DashboardLayout>
     <ManagementAkses> </ManagementAkses>
-  </DashboardLayout>
 </template>
 
 <script setup>

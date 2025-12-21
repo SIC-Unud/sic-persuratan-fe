@@ -1,113 +1,137 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AboutView from '@/views/AboutView.vue'
-import DetailSuratView from '@/views/AdminDetailSuratView.vue'
-import UpdateSuratView from '@/views/UpdateSuratView.vue'
+
 import LoginView from '@/views/LoginView.vue'
-import TambahData from "@/components/TambahData.vue";
-import EditData from "@/components/EditData.vue";
-import ValidasiPopup from "@/components/ValidasiPopup.vue";
-import ManajemenAksesView from "@/views/ManajemenAksesView.vue";
-import DetailAksesView from "@/views/DetailAksesView.vue";
-import AjukanSurat from '@/views/ajukanSurat.vue'
-import AdminManajemenSuratView from '@/views/AdminManajemenSuratView.vue'
-import ManajemenSuratView from '@/views/ManajemenSuratView.vue'
+import AdminLayout from '@/layout/DashboardLayout.vue'
+import UserLayout from '@/layout/UserDashboardLayout.vue'
+
+import AdminManajemenSuratView from '@/views/admin/AdminManajemenSuratView.vue'
+import DetailSuratView from '@/views/admin/AdminDetailSuratView.vue'
+import UpdateSuratView from '@/views/admin/UpdateSuratView.vue'
+import ManajemenAksesView from '@/views/admin/ManajemenAksesView.vue'
+import DetailAksesView from '@/views/admin/DetailAksesView.vue'
+import TambahData from "@/components/TambahData.vue"
+import EditData from "@/components/EditData.vue"
+import ValidasiPopup from "@/components/ValidasiPopup.vue"
+
+import AjukanSurat from '@/views/user/ajukanSurat.vue'
+import ManajemenSuratView from '@/views/user/ManajemenSuratView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+
   routes: [
     {
       path: '/login',
       name: 'login',
       component: LoginView,
     },
+
+    // USER AREA
     {
-      path: '/ajukan-surat',
-      name: 'ajukan-surat',
-      component: AjukanSurat,
-    },
-    {
-      path: '/surat',
-      name: 'manajemen-surat',
-      component: ManajemenSuratView,
-    },
-    {
-      path: '/surat/:id',
-      name: 'admin-detail-surat',
-      component: DetailSuratView,
-      meta: { requiresAdmin: true }
-    },
-    {
-      path: '/admin/ajukan-surat',
-      name: 'admin-ajukan-surat',
-      component: AjukanSurat,
-    },
-    {
-      path: '/admin/surat',
-      name: 'admin-manajemen-surat',
-      component: AdminManajemenSuratView,
-    },
-    {
-      path: '/admin/surat/:id',
-      name: 'admin-detail-surat',
-      component: DetailSuratView,
-      meta: { requiresAdmin: true }
-    },
-    {
-      path: '/admin/surat/:id/update-surat',
-      name: 'admin-update-surat',
-      component: UpdateSuratView,
-      meta: { requiresAdmin: true }
-    },
-    {
-      path: "/admin/manajemen-akses",
-      name: "manajemen-akses",
-      component: ManajemenAksesView,
+      path: '/',
+      component: UserLayout,
       children: [
         {
-          path: "tambah-data",
-          name: "tambah-data",
-          component: TambahData,
+          path: 'surat',
+          name: 'surat',
+          component: ManajemenSuratView,
         },
         {
-          path: "hapus-data",
-          name: "hapus-data",
-          component: ValidasiPopup,
-        },
-      ],
+          path: 'ajukan-surat',
+          component: AjukanSurat,
+        }
+      ]
     },
+
+    // ADMIN AREA
     {
-      path: "/admin/detail-akses/:id",
-      name: "detail-akses",
-      component: DetailAksesView,
+      path: '/admin',
+      component: AdminLayout,
+      meta: { requiresAuth: true, adminOnly: true },
       children: [
         {
-          path: "edit-data-akses",
-          name: "edit-data-akses",
-          component: EditData,
+          path: 'surat',
+          name: 'admin-manajemen-surat',
+          component: AdminManajemenSuratView,
         },
         {
-          path: "hapus-detail",
-          name: "hapus-detail",
-          component: ValidasiPopup,
+          path: 'ajukan-surat',
+          name: 'admin-ajukan-surat',
+          component: AjukanSurat,
         },
-      ],
-    },
+        {
+          path: 'surat/:id',
+          name: 'admin-detail-surat',
+          component: DetailSuratView,
+        },
+        {
+          path: 'surat/:id/update-surat',
+          name: 'admin-update-surat',
+          component: UpdateSuratView,
+        },
+
+        {
+          path: 'manajemen-akses',
+          name: 'manajemen-akses',
+          component: ManajemenAksesView,
+          children: [
+            {
+              path: 'tambah-data',
+              name: 'tambah-data',
+              component: TambahData,
+            },
+            {
+              path: 'hapus-data',
+              name: 'hapus-data',
+              component: ValidasiPopup,
+            },
+          ],
+        },
+
+        {
+          path: 'detail-akses/:id',
+          name: 'detail-akses',
+          component: DetailAksesView,
+          children: [
+            {
+              path: 'edit-data-akses',
+              name: 'edit-data-akses',
+              component: EditData,
+            },
+            {
+              path: 'hapus-detail',
+              name: 'hapus-detail',
+              component: ValidasiPopup,
+            },
+          ],
+        },
+      ]
+    }
   ]
 })
 
-// Middleware untuk proteksi rute
 router.beforeEach((to, from, next) => {
-  const roleId = parseInt(localStorage.getItem('role_id') || '0')
+  const token = localStorage.getItem('token')
+  const roleId = Number(localStorage.getItem('role'))
 
-  // Jika user sudah login dan mencoba ke /login lagi, arahkan sesuai role
-  if (to.path === '/login' && roleId) {
-    if (roleId === 1) return next('/admin/surat')
-    return next('/surat')
+  const isAdmin = [1,2,3,4,5].includes(roleId)
+  const isUser  = roleId === 6
+
+  //Belum login tapi masuk halaman protected
+  if (to.meta.requiresAuth && !token) {
+    return next('/login')
   }
 
-  // Proteksi akses admin
-  if (to.meta.requiresAdmin && roleId !== 1) return next('/login')
+  //Bukan admin tapi masuk admin area
+  if (to.meta.adminOnly && !isAdmin) {
+    return next('/')
+  }
+
+  //Sudah login tapi buka /login
+  if (to.path === '/login' && token) {
+    if (isAdmin) return next('/admin/surat')
+    if (isUser) return next('/')
+  }
 
   next()
 })

@@ -64,25 +64,31 @@ const username = ref('');
 const password = ref('');
 const message = ref('');
 
-async function handleSubmit() { 
-  message.value = '';
-
+async function handleSubmit() {
   try {
-    const data = await login({
+    const res = await login({
       username: username.value,
       password: password.value,
     });
 
-    if (data?.token) {
-      localStorage.setItem('token', data.token);
-      message.value = 'Login sukses! Mengarahkan ke dashboard...';
-      router.push('/admin/surat');
-    } else {
-      message.value = 'Login gagal: username atau password salah';
+    console.log('LOGIN RESPONSE:', res);
+
+    if (res.data.success) {
+      // ✅ ambil dari res.data
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.data.role);
+
+      const role = res.data.data.role;
+
+      if ([1, 2, 3, 4, 5].includes(role)) {
+        router.push('/admin/surat');
+      } else {
+        router.push('/surat');
+      }
     }
   } catch (e) {
-    console.error('login error:', e);
-    message.value = e.response?.data?.message || 'Login gagal';
+    console.error(e);
+    message.value = 'Login gagal';
   }
 }
 </script>
