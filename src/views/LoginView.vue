@@ -72,11 +72,13 @@ async function handleSubmit() {
     });
 
     console.log('LOGIN RESPONSE:', res);
+    console.log('DATA =', res.data)
+    console.log('TOKEN FIELD =', res.data.token)
 
     if (res.data.success) {
-      // ✅ ambil dari res.data
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.data.role);
+      localStorage.setItem('user_id', res.data.data.id)
 
       const role = res.data.data.role;
 
@@ -87,8 +89,7 @@ async function handleSubmit() {
       }
     }
   } catch (e) {
-    console.error(e);
-    message.value = 'Login gagal';
+    console.error('LOGIN ERROR =', e)
   }
 }
 </script>

@@ -1,36 +1,20 @@
 import axios from 'axios'
 
 const API = axios.create({
-    // baseURL: 'https://arilloid-velia-incretory.ngrok-free.dev',
-    baseURL: 'http://localhost:3000',
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json',
-    },
+  baseURL: 'http://localhost:3000',
+  headers: { 'Content-Type': 'application/json' }
 })
 
-// // Request interceptor → tambahkan token otomatis
-// API.interceptors.request.use((config) => {
-//     const token = localStorage.getItem('token')
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
 
-//     if (!config.url.includes('/auth/signin') && token) {
-//         config.headers.Authorization = `Bearer ${token}`
-//     }
+  if (token && token !== 'undefined' && !config.url.includes('/auth/signin')) {
+    config.headers.Authorization = `Bearer ${token}`
+  } else {
+    delete config.headers.Authorization
+  }
 
-//     return config
-// })
-
-// // Response interceptor → tangani error global
-// API.interceptors.response.use(
-//     (response) => response,
-//     (error) => {
-//         if (error.response?.status === 401) {
-//         console.warn('Token invalid, redirect login...')
-//         // contoh redirect ke login
-//         // window.location.href = '/login'
-//         }
-//         return Promise.reject(error)
-//     }
-// )
+  return config
+})
 
 export default API

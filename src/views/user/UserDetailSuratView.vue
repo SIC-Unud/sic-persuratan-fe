@@ -1,5 +1,4 @@
 <template>
-  <DashboardLayout>
     <div>
       <div class="flex justify-between items-center">
         <div>
@@ -20,7 +19,10 @@
         </div>
       </div>
 
-      <div v-if="surat">
+      <div v-if="!surat" class="p-6 text-center text-gray-500">
+        Memuat detail surat...
+    </div>
+      <div v-else>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-3">
         <div class="w-full">
           <label class="block text-base font-normal text-content">Nama Pengaju</label>
@@ -116,16 +118,45 @@
       </div>
           
     </div>
-  </DashboardLayout>
-
-</template>
+ </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { suratList } from '@/data/suratList.js'
-import DashboardLayout from '@/layout/DashboardLayout.vue'
+import api from '@/service/API'
 
 const route = useRoute()
+const surat = ref(null)
 const id = parseInt(route.params.id)
-const surat = suratList.find((s) => s.id === id)
+
+const fetchSuratDetail = async () => {
+  try {
+    const res = await api.get(`/v1/pengajuan-surat/${id}`)
+    if (res.data && res.data.data) {
+      const data = res.data.data
+      surat.value = {
+        id: data.id,
+        namaPengaju: data.functionary || '-',
+        temaKegiatan: data.activity_theme || '-',
+        sumberSurat: data.source || '-',
+        tanggal: data.date || '-',
+        pukul: data.time || '-', 
+        jenisSurat: data.type || '-',
+        tempat: data.place || '-',
+        nomorSurat: data.number || '-',
+        status: data.letter_status || '-',
+        tujuan: data.dest || '-',
+        keterangan: data.desc || '-',
+        namaKegiatan: data.activity_name || '-',
+        linkPendukung: data.additional_link || ''
+      }
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+onMounted(() => {
+  fetchSuratDetail()
+})
 </script>

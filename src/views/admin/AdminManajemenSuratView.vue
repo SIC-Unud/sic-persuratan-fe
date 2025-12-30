@@ -48,11 +48,11 @@
 
           <!-- Table Body -->
           <div
-            v-for="(surat, index) in paginatedSurat"
+            v-for="(surat, index) in daftarSurat"
             :key="surat.id"
             class="flex flex-wrap items-start border-b pt-2 pb-6 text-xs font-medium font-jakarta-sans md:py-2 md:text-base"
           >
-            <p class="w-2/12 pl-4 md:w-1/12 md:pr-16 md:text-right">{{ (currentPage - 1) * entriesPerPage + index + 1 }}</p>
+            <p class="w-2/12 pl-4 md:w-1/12 md:pr-16 md:text-right">{{ ((paging?.page || 1) - 1) * (paging?.perPage || entriesPerPage) + index + 1 }}</p>
             <p class="w-5/12 md:w-2/12 md:block overflow-x-auto">{{ surat.nomorSurat }}</p>
             <p class="w-5/12 md:w-2/12 md:block break-all whitespace-normal">{{ surat.sumberSurat }}</p>
             <p class="hidden w-2/12 md:block break-all whitespace-normal">{{ surat.jenisSurat }}</p>
@@ -93,12 +93,12 @@
             <div class="text-xs font-medium text-dark md:text-base">
               <label>Menampilkan </label>
               <span class="text-primary">
-                {{ (currentPage - 1) * entriesPerPage + 1 }}
+                {{ ((paging?.page || 1) - 1) * (paging?.perPage || entriesPerPage) + 1 }}
               </span>
               -
               <span class="text-primary">
                 {{
-                  Math.min(currentPage * entriesPerPage, daftarSurat.length)
+                  Math.min((paging?.page || 1) * (paging?.perPage || entriesPerPage), paging?.totalData || 0)
                 }}
               </span>
               <label> dari </label>
@@ -154,35 +154,44 @@ const daftarSurat = ref([])
 const showDeleteModal = ref(false)
 const selectedSuratId = ref(null)
 
+const paging = ref({
+  page: 1,
+  perPage: 10,
+  totalData: 0,
+  totalPage: 1
+})
+
 const currentPage = ref(1)
 const entriesPerPage = ref(10)
 
 const loading = ref(false)
 const error = ref(null)
 
-/**
- * GET /v1/pengajuan-surat?page=&perPage=
- * TOKEN OTOMATIS DARI api.js (interceptor)
- */
 const fetchSurat = async () => {
-  loading.value = true
-  error.value = null
-
   try {
-    const res = await api.get("/v1/pengajuan-surat", {
+    const res = await api.get('/v1/pengajuan-surat', {
       params: {
         page: currentPage.value,
-        perPage: entriesPerPage.value,
+        perPage: entriesPerPage.value
       }
     })
 
-    daftarSurat.value = res.data.data
-
+    daftarSurat.value = (res.data.data || []).map(item => ({
+      id: item.id,
+      nomorSurat: item.letter_number,
+      sumberSurat: item.letter_source,
+      jenisSurat: item.letter_type,
+      namaKegiatan: item.activity_name,
+      status: item.status
+    }))
+    paging.value = res.data.paging || {
+      page: currentPage.value,
+      perPage: res.data.perPage,
+      totalData: res.data.totalData,
+      totalPage: res.data.totalPage 
+    }
   } catch (err) {
     console.error(err)
-    error.value = err
-  } finally {
-    loading.value = false
   }
 }
 
@@ -190,16 +199,7 @@ onMounted(() => {
   fetchSurat()
 })
 
-// Pagination (local)
-const totalPages = computed(() => {
-  return Math.ceil(daftarSurat.value.length / entriesPerPage.value)
-})
-
-const paginatedSurat = computed(() => {
-  const start = (currentPage.value - 1) * entriesPerPage.value
-  const end = start + entriesPerPage.value
-  return daftarSurat.value.slice(start, end)
-})
+const totalPages = computed(() => paging.value.totalPage)
 
 watch(entriesPerPage, () => {
   currentPage.value = 1
@@ -207,7 +207,7 @@ watch(entriesPerPage, () => {
 })
 
 const changePage = (page) => {
-  if (page >= 1 && page <= totalPages.value) {
+  if (page >= 1 && page <= paging.value.totalPage) {
     currentPage.value = page
     fetchSurat()
   }
@@ -222,10 +222,16 @@ const openDeleteModal = (id) => {
   showDeleteModal.value = true
 }
 
-const confirmDelete = () => {
-  daftarSurat.value = daftarSurat.value.filter(
-    surat => surat.id !== selectedSuratId.value
-  )
-  showDeleteModal.value = false
+const confirmDelete = async () => {
+  try {
+    await api.delete(`/v1/pengajuan-surat/${selectedSuratId.value}`)
+    daftarSurat.value = daftarSurat.value.filter(
+      surat => surat.id !== selectedSuratId.value
+    )
+    showDeleteModal.value = false
+  } catch (err) {
+    console.error(err)
+    alert('Gagal menghapus surat: ' + (err.response?.data?.error?.message || err.message))
+  }
 }
 </script>

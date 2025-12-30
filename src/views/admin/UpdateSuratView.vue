@@ -1,5 +1,4 @@
 <template>
-  <DashboardLayout>
     <div>
       <form class="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto">
         <div class="col-span-full flex justify-between items-center">
@@ -103,19 +102,16 @@
         </div>
       </form>
     </div>
-  </DashboardLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import DashboardLayout from '@/layout/DashboardLayout.vue'
-import { suratList } from '@/data/suratList.js'
+import api from '@/service/API'
 
 const route = useRoute()
 const router = useRouter()
 
-// Form kosong default
 const form = ref({
   namaPengaju: '',
   temaKegiatan: '',
@@ -132,24 +128,69 @@ const form = ref({
   linkPendukung: '',
 })
 
-onMounted(() => {
-  const id = parseInt(route.params.id)
-  const surat = suratList.find(s => s.id === id)
+const statusMapping = {
+  'Menunggu diajukan': 1,
+  'Sedang diajukan': 2,
+  'Berhasil diajukan': 3,
+  'Ditolak': 4,
+  'Dibatalkan': 5,
+}
 
-  if (surat) {
-    form.value = { ...surat }
-  } else {
-    console.warn('Surat tidak ditemukan dengan ID:', id)
+const id = parseInt(route.params.id)
+console.log(id)
+
+const fetchSuratDetail = async () => {
+  try {
+    const res = await api.get(`/v1/pengajuan-surat/${id}`)
+    if (res.data?.data) {
+      const data = res.data.data
+      form.value = {
+        namaPengaju: data.functionary || '',
+        temaKegiatan: data.activity_theme || '',
+        sumberSurat: data.source || '',
+        tanggal: data.date?.split('T')[0] || '',
+        pukul: data.date?.split('T')[1]?.substring(0,5) || '', 
+        jenisSurat: data.type || '',
+        tempat: data.place || '',
+        nomorSurat: data.number || '',
+        status: data.letter_status || '',
+        tujuan: data.dest || '',
+        keterangan: data.desc || '',
+        namaKegiatan: data.activity?.title || '',
+        linkPendukung: data.additional_link || ''
+      }
+    }
+  } catch (err) {
+    console.error(err)
   }
-})
+}
 
-function simpanSurat() {
-  const id = parseInt(route.params.id)
-  const index = suratList.findIndex(s => s.id === id)
+onMounted(fetchSuratDetail)
 
-  if (index !== -1) {
-    suratList[index] = { id, ...form.value }
+const simpanSurat = async () => {
+  try {
+    const status_id = statusMapping[form.value.status]
+    const res = await api.put(`/v1/pengajuan-surat/${id}`, {
+      source: form.value.sumberSurat,
+      type: form.value.jenisSurat,
+      number: form.value.nomorSurat,
+      dest: form.value.tujuan,
+      activity_theme: form.value.temaKegiatan,
+      activity_id: form.value.activity_id,
+      date: `${form.value.tanggal}`,
+      time: `${form.value.pukul}`,
+      place: form.value.tempat,
+      status_id: status_id,
+      desc: form.value.keterangan,
+      additional_link: form.value.linkPendukung
+    })
+    if (res.data?.data) {
+      const updated = res.data.data
+      form.value.status = updated.letter_status || form.value.status
+    }
+    router.push(`/admin/surat/${id}`)
+  } catch (err) {
+    console.error(err)
   }
-  router.push(`/admin/surat/${id}`)
 }
 </script>

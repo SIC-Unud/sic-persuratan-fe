@@ -47,12 +47,12 @@
 
           <!-- Table Body -->
           <div
-            v-for="(surat, index) in paginatedSurat"
+            v-for="(surat, index) in daftarSurat"
             :key="surat.id"
             class="flex items-start border-b pt-2 pb-6 text-xs font-medium font-jakarta-sans md:py-2 md:text-base"
           >
             <p class="w-2/12 pl-4 md:w-1/12 md:text-left">
-              {{ (currentPage - 1) * entriesPerPage + index + 1 }}
+              {{ ((paging?.page || 1) - 1) * (paging?.perPage || entriesPerPage) + index + 1 }}
             </p>
             <p class="w-5/12 md:w-3/12 break-word whitespace-normal">{{ surat.nomorSurat }}</p>
             <p class="w-5/12 md:w-2/12 break-word whitespace-normal">{{ surat.sumberSurat }}</p>
@@ -89,12 +89,12 @@
             <div class="text-xs font-medium text-dark md:text-base">
               <label>Menampilkan </label>
               <span class="text-primary">
-                {{ (currentPage - 1) * entriesPerPage + 1 }}
+                {{((paging?.page || 1) - 1) * (paging?.perPage || entriesPerPage) + 1 }}
               </span>
               -
               <span class="text-primary">
                 {{
-                  Math.min(currentPage * entriesPerPage, daftarSurat.length)
+                  Math.min((paging?.page || 1) * (paging?.perPage || entriesPerPage), paging?.totalData || 0)
                 }}
               </span>
               <label> dari </label>
@@ -135,31 +135,64 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { suratList } from '@/data/suratList.js'
+import { ref, computed, watch, onMounted } from 'vue'
+import api from '@/service/API'             
 
-const daftarSurat = ref(suratList)
+const daftarSurat = ref([])
+
+const paging = ref({
+  page: 1,
+  perPage: 10,
+  totalData: 0,
+  totalPage: 1
+})
 
 const currentPage = ref(1)
 const entriesPerPage = ref(10)
 
-const totalPages = computed(() => {
-  return Math.ceil(daftarSurat.value.length / entriesPerPage.value)
+const fetchSurat = async () => {
+  try {
+    const res = await api.get('/v1/pengajuan-surat', {
+      params: {
+        page: currentPage.value,
+        perPage: entriesPerPage.value
+      }
+    })
+
+    daftarSurat.value = (res.data.data || []).map(item => ({
+      id: item.id,
+      nomorSurat: item.letter_number,
+      sumberSurat: item.letter_source,
+      jenisSurat: item.letter_type,
+      namaKegiatan: item.activity_name,
+      status: item.status
+    }))
+    paging.value = res.data.paging || {
+      page: currentPage.value,
+      perPage: res.data.perPage,
+      totalData: res.data.totalData,
+      totalPage: res.data.totalPage 
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+onMounted(() => {
+  fetchSurat()
 })
 
-const paginatedSurat = computed(() => {
-  const start = (currentPage.value - 1) * entriesPerPage.value
-  const end = start + entriesPerPage.value
-  return daftarSurat.value.slice(start, end)
-})
+const totalPages = computed(() => paging.value.totalPage)
 
 watch(entriesPerPage, () => {
   currentPage.value = 1
+  fetchSurat()
 })
 
 const changePage = (page) => {
-  if (page >= 1 && page <= totalPages.value) {
+  if (page >= 1 && page <= paging.value.totalPage) {
     currentPage.value = page
+    fetchSurat()
   }
 }
 

@@ -5,15 +5,19 @@
           <h2 class="text-2xl font-semibold text-secondary mt-5 md:mb-5 mb-2 font-jakarta-sans">Tambah Data</h2>
 
           <form class="space-y-6 overflow-y-auto">
-            <div>
-              <label class="block  text-dark mb-2">Sumber Surat</label>
-              <input v-model="sumberSurat" type="text" class="w-full px-4 py-2 border rounded-md focus:outline-primary"/>
-            </div>
+            <select v-model.number="sumberSurat" class="w-full px-4 py-2 border rounded-md">
+              <option disabled value="">Pilih Sumber Surat</option>
+              <option :value="1">Student Innovation Centre</option>
+              <option :value="2">Panitia Pelaksana</option>
+            </select>
 
-            <div>
-              <label class="block  text-dark mb-2">Jenis Surat</label>
-              <input v-model="jenisSurat" type="text" class="w-full px-4 py-2 border rounded-md focus:outline-primary"/>
-            </div>
+            <select v-model.number="jenisSurat" class="w-full px-4 py-2 border rounded-md">
+              <option disabled value="">Pilih Jenis Surat</option>
+              <option :value="1">Surat Izin Kegiatan</option>
+              <option :value="2">Surat Tugas</option>
+              <option :value="3">Surat Permohonan</option>
+              <option :value="4">Surat Peminjaman</option>
+            </select>
 
             <div>
               <label class="block  text-dark mb-2">Nama Kegiatan</label>
@@ -32,21 +36,21 @@
               </div>
               <div class="w-full">
                 <label class="block  text-dark mb-2">Jam</label>
-                <input v-model="waktuKegiatan" class="w-full px-4 py-2 border rounded-md focus:outline-primary"/>
+                <input v-model="waktuKegiatan" type="time" class="w-full px-4 py-2 border rounded-md focus:outline-primary"/>
               </div>
             </div>
 
             <div>
               <label class="block  text-dark mb-2">Tempat</label>
-              <input v-model="temaKegiatan" type="text" class="w-full px-4 py-2 border rounded-md focus:outline-primary"/>
+              <input v-model="tempatKegiatan" type="text" class="w-full px-4 py-2 border rounded-md focus:outline-primary"/>
             </div>
 
             <div class="flex justify-end mt-auto gap-2 ">
             <!-- tombol batal -->
-            <button class="font-jakarta-sans border-2 border-primary rounded-xl py-2 px-6 text-primary font-bold" @click="closePopup">Batal</button>
+            <button type="button" class="font-jakarta-sans border-2 border-primary rounded-xl py-2 px-6 text-primary font-bold" @click="closePopup">Batal</button>
             
             <!-- tombol kirim -->
-            <button class="text-white  bg-primary border-2 border-birumuda rounded-xl py-2 px-6 font-jakarta-sans font-bold" @click="sendData">Simpan</button>
+            <button type="button" class="text-white  bg-primary border-2 border-birumuda rounded-xl py-2 px-6 font-jakarta-sans font-bold" @click="sendData">Simpan</button>
           </div>
           </form>
         </div>
@@ -55,18 +59,64 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { ajukanSurat } from '@/service/Surat'
 
-const router = useRouter();
+const router = useRouter()
+
+const sumberSurat = ref('')
+const jenisSurat = ref('')
+const namaKegiatan = ref('')
+const temaKegiatan = ref('')
+const tanggalKegiatan = ref('')
+const waktuKegiatan = ref('')
+const tempatKegiatan = ref('')
 
 function closePopup() {
-  router.push('/surat'); 
+  router.push('/surat')
 }
 
-function sendData() {
-  console.log('Form disimpan!');
+async function sendData() {
+  try {
+    const sourceMap = {
+      1: 'Student Innovation Centre',
+      2: 'Panitia Pelaksana'
+    }
 
-  router.push('/surat');
+    const typeMap = {
+      1: 'Surat Izin Kegiatan',
+      2: 'Surat Tugas',
+      3: 'Surat Permohonan',
+      4: 'Surat Peminjaman'
+    }
+
+    const payload = {
+      type: typeMap[jenisSurat.value],
+      source: sourceMap[sumberSurat.value],
+      dest: namaKegiatan.value,
+      activity_theme: temaKegiatan.value,
+      date: `${tanggalKegiatan.value} ${waktuKegiatan.value}`,
+      place: tempatKegiatan.value,
+      desc: namaKegiatan.value,
+
+      // number: 'AUTO',
+      // functionary_id: Number(localStorage.getItem('user_id')),
+      // status_id: 1,
+      // activity_id: 1,
+      // is_active: 1
+    }
+
+    console.log('PAYLOAD FIXED =', payload)
+
+    await ajukanSurat(payload)
+
+    alert('Surat berhasil diajukan')
+    router.push('/surat')
+
+  } catch (err) {
+    console.error(err.response?.data || err)
+    alert('Gagal mengirim surat')
+  }
 }
 </script>
