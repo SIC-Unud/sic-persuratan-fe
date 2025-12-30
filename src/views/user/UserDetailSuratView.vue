@@ -12,9 +12,6 @@
             <RouterLink to="/admin/surat" class="px-4 py-2 bg-white text-primary text-xl font-bold rounded-xl border border-primary hover:shadow-xl transition">
               Kembali
             </RouterLink>
-            <RouterLink :to="`/admin/surat/${surat.id}/update-surat`" class="px-6 py-2 bg-primary text-white text-xl font-bold rounded-xl hover:shadow-xl transition">
-              Update
-            </RouterLink>
           </div>
         </div>
       </div>
@@ -106,7 +103,15 @@
         <div class="w-full">
           <label class="block text-base font-normal text-content">Link pendukung</label>
           <div class="p-3 bg-white rounded-md gap-2">
-            <p class="font-medium text-black">{{ surat.linkPendukung }}</p>
+            <a
+              v-if="surat.linkPendukung"
+              :href="surat.linkPendukung"
+              target="_blank"
+              class="text-blue-500 underline"
+            >
+              {{ surat.linkPendukung }}
+            </a>
+            <span v-else>-</span>
           </div>
         </div>
       </div> 

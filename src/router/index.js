@@ -15,6 +15,7 @@ import ValidasiPopup from "@/components/ValidasiPopup.vue"
 
 import AjukanSurat from '@/views/user/ajukanSurat.vue'
 import ManajemenSuratView from '@/views/user/ManajemenSuratView.vue'
+import UserDetailSuratView from '@/views/user/UserDetailSuratView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,11 @@ const router = createRouter({
           path: 'surat',
           name: 'surat',
           component: ManajemenSuratView,
+        },
+        {
+          path: 'surat/:id',
+          name: 'user-detail-surat',
+          component: UserDetailSuratView,
         },
         {
           path: 'ajukan-surat',

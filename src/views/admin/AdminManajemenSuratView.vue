@@ -145,7 +145,6 @@
 </template>
 
 <script setup>
-import DashboardLayout from '@/layout/DashboardLayout.vue'
 import { ref, computed, watch, onMounted } from 'vue'
 import api from '@/service/API'             
 import ValidasiPopup from '@/components/ValidasiPopup.vue'
@@ -163,9 +162,6 @@ const paging = ref({
 
 const currentPage = ref(1)
 const entriesPerPage = ref(10)
-
-const loading = ref(false)
-const error = ref(null)
 
 const fetchSurat = async () => {
   try {
